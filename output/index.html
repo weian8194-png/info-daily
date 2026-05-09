@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>跨境 & AI 信息日报 — 2026-05-09</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, "Microsoft YaHei", sans-serif; background: #f5f6fa; color: #333; line-height:1.6; }
+.header { background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%); color:#fff; padding:32px 24px; text-align:center; }
+.header h1 { font-size:26px; margin-bottom:6px; letter-spacing:1px; }
+.header .meta { font-size:13px; opacity:.75; }
+.header .meta a { color:#8ecae6; text-decoration:none; }
+.nav { background:#fff; border-bottom:1px solid #e0e0e0; padding:0 24px; display:flex; gap:0; justify-content:center; }
+.nav a { padding:10px 20px; text-decoration:none; color:#555; font-size:14px; font-weight:500; border-bottom:2px solid transparent; transition:.2s; }
+.nav a:hover, .nav a.active { color:#2c5364; border-bottom-color:#2c5364; }
+.container { max-width:900px; margin:0 auto; padding:20px; }
+.section { background:#fff; border-radius:10px; padding:24px; margin-bottom:20px; box-shadow:0 1px 3px rgba(0,0,0,0.06); }
+.section h2 { font-size:18px; margin-bottom:16px; padding-bottom:10px; border-bottom:2px solid #2c5364; }
+.section h2 .count { font-size:13px; color:#999; font-weight:400; margin-left:8px; }
+.source-tag { flex-shrink:0; padding:3px 10px; border-radius:4px; font-size:11px; font-weight:600; white-space:nowrap; }
+.tag-hn { background:#ff6600; color:#fff; }
+.tag-gh { background:#24292e; color:#fff; }
+.tag-ph { background:#da552f; color:#fff; }
+.tag-jj { background:#1e80ff; color:#fff; }
+.tag-iq { background:#009a61; color:#fff; }
+.tag-gt { background:#4285f4; color:#fff; }
+.tag-gn { background:#ea4335; color:#fff; }
+.tag-cn { background:#ff6b35; color:#fff; }
+.tag-manual { background:#999; color:#fff; }
+.tag-default { background:#e0e0e0; color:#555; }
+.time { color:#bbb; font-size:11px; white-space:nowrap; flex-shrink:0; margin-left:auto; }
+.empty { color:#999; font-size:13px; text-align:center; padding:20px; }
+.footer { text-align:center; color:#bbb; font-size:12px; padding:30px; }
+.footer a { color:#999; text-decoration:none; }
+.stats { display:flex; gap:20px; justify-content:center; flex-wrap:wrap; margin-bottom:24px; }
+.stat-card { background:#fff; border-radius:10px; padding:16px 24px; text-align:center; box-shadow:0 1px 3px rgba(0,0,0,0.06); min-width:100px; }
+.stat-card .num { font-size:28px; font-weight:700; color:#2c5364; }
+.stat-card .label { font-size:12px; color:#999; margin-top:2px; }
+
+/* 卡片格式 */
+.card-item { background:#fafbfc; border-radius:8px; padding:16px 20px; margin-bottom:14px; border:1px solid #eef0f4; transition:.2s; }
+.card-item:hover { border-color:#c0c8d4; box-shadow:0 2px 8px rgba(0,0,0,0.04); }
+.card-header { display:flex; align-items:center; gap:10px; margin-bottom:10px; flex-wrap:wrap; }
+.card-title { color:#2c5364; text-decoration:none; font-weight:600; font-size:15px; flex:1; min-width:200px; }
+.card-title:hover { text-decoration:underline; color:#1a73e8; }
+.card-summary { font-size:13px; color:#555; line-height:1.6; margin-bottom:8px; padding:10px 14px; background:#f0f4ff; border-radius:6px; border-left:3px solid #2c5364; }
+.card-bg { font-size:12px; color:#666; line-height:1.5; margin-bottom:8px; padding:8px 14px; background:#fffbe6; border-radius:6px; }
+.card-link { font-size:12px; color:#888; padding:6px 14px; background:#f8f9fa; border-radius:6px; word-break:break-all; }
+.card-link a { color:#2c5364; text-decoration:none; }
+.card-link a:hover { text-decoration:underline; }
+.section-label { display:inline-block; font-size:10px; font-weight:700; color:#fff; background:#2c5364; padding:1px 6px; border-radius:3px; margin-right:8px; text-transform:uppercase; letter-spacing:.5px; }
+.bg-label { display:inline-block; font-size:10px; font-weight:700; color:#b7950b; background:#fff3cd; padding:1px 6px; border-radius:3px; margin-right:8px; }
+
+@media (max-width: 640px) {
+    .header h1 { font-size:20px; }
+    .container { padding:10px; }
+    .section { padding:16px; }
+    .card-item { padding:12px 14px; }
+    .card-title { font-size:13px; min-width:0; }
+    .stats { gap:10px; }
+    .stat-card { padding:12px 16px; min-width:80px; }
+    .stat-card .num { font-size:22px; }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+    <h1>跨境 & AI 信息日报</h1>
+    <div class="meta">
+        2026-05-09 · 每日 9:00 更新 · 共 33 条信息
+    </div>
+</div>
+
+<div class="nav">
+    <a href="index.html" class="active">今日</a>
+    <a href="archive.html">历史归档</a>
+</div>
+
+<div class="container">
+
+    <div class="stats">
+        <div class="stat-card"><div class="num">12</div><div class="label">平台政策</div></div>
+        <div class="stat-card"><div class="num">1</div><div class="label">产品趋势</div></div>
+        <div class="stat-card"><div class="num">20</div><div class="label">AI 动态</div></div>
+    </div>
+
+<div class="section">
+    <h2>📋 平台政策 <span class="count">(12条)</span></h2>
+    <div class="card-item">
+    <div class="card-header">
+        <span class="source-tag tag-cn">雨果网</span>
+        <a href="https://www.cifnews.com/article/185668" target="_blank" rel="noopener" class="card-title">362名被告！SIFTR微型硅胶滤网隐匿发TRO！</a>
+        <span class="time">2026-05-09</span>
+    </div>
+    <div class="card-summary"><span class="section-label">总结</span>雨果网政策资讯：362名被告！SIFTR微型硅胶滤网隐匿发TRO！。点击链接查看政策全文与解读。</div>
+    <div class="card-bg"><span class="bg-label">背景</span>雨果网（cifnews.com）跨境电商行业媒体 — 政策/法规/合规类资讯</div>
+    <div class="card-link"><span class="section-label">链接</span><a href="https://www.cifnews.com/article/185668" target="_blank" rel="noopener">https://www.cifnews.com/article/185668</a></div>
+</div><div class="card-item">
+    <div class="card-header">
+        <span class="source-tag tag-gn">Google News</span>
+        <a href="https://news.google.com/rss/articles/CBMi2AFBVV95cUxPekVaZmZJUlpLeVo3RVVRZ0laX1FMVkhkdVZGcng0QmQ2aE1ZYmJjcUVDaG1GU0djLVFGeXpydUJVWVVKbHJtTDJ2VmhvQ2RQNm00ZXk0YnpPamRCZldIdE5TNk8zM2wtNmdJMTdySmRjT3RKUnhqZHhQMnhmdng5MGlZS3JiQ0ZYTTNUNmUtVnlkcmpDOGdBNTNRNUxPSGpYWlFpSnIwY09jYk5RNWh3Z2N5bUxxNHdpSWpSbmZCdlBLRGJrRWZpVXNzc1I0dUlJcE1jSkI1Mmg?oc=5" target="_blank" rel="noopener" class="card-title">Aimed at Temu and Shein, and applicable to Amazon, the EU introduces taxes on e‑commerce platforms</a>
+        <span class="time">2026-05-09</span>
+    </div>
+    <div class="card-summary"><span class="section-label">总结</span>Aimed at Temu and Shein, and applicable to Amazon, the EU introduces taxes on e‑commerce platforms Eunews</div>
+    <div class="card-bg"><span class="bg-label">背景</span>来源：Eunews | 监测关键词：TEMU  merchant  policy  commission  rule</div>
+    <div class="card-link"><span class="section-label">链接</span><a href="https://news.google.com/rss/articles/CBMi2AFBVV95cUxPekVaZmZJUlpLeVo3RVVRZ0laX1FMVkhkdVZGcng0QmQ2aE1ZYmJjcUVDaG1GU0djLVFGeXpydUJVWVVKbHJtTDJ2VmhvQ2RQNm00ZXk0YnpPamRCZldIdE5TNk8zM2wtNmdJMTdySmRjT3RKUnhqZHhQMnhmdng5MGlZS3JiQ0ZYTTNUNmUtVnlkcmpDOGdBNTNRNUxPSGpYWlFpSnIwY09jYk5RNWh3Z2N5bUxxNHdpSWpSbmZCdlBLRGJrRWZpVXNzc1I0dUlJcE1jSkI1Mmg?oc=5" target="_blank" rel="noopener">https://news.google.com/rss/articles/CBMi2AFBVV95cUxPekVaZmZJUlpLeVo3RVVRZ0laX1F...</a></div>
+</div><div class="card-item">
+    <div class="card-header">
+        <span class="source-tag tag-gn">Google News</span>
+        <a href="https://news.google.com/rss/articles/CBMiekFVX3lxTE1FcXR2dy1TSncxcHluNmZ6aEE5STd2TTZKZEVGaGEyX3lVS0IwbjFVWFJJdml3bEU2MzlSQkNtSU1XQ094V3NpNHYyUVF2V2FNRHdYMWdDOHBQZG1Vd3ZkNTQ0OUg5Nk81eEVxMTQxR1VWbGEzTEZMUWtn?oc=5" target="_blank" rel="noopener" class="card-title">Amazon Doesn't Want Sellers Listing These Tech Products</a>
+        <span class="time">2026-05-09</span>
+    </div>
+    <div class="card-summary"><span class="section-label">总结</span>Amazon Doesn't Want Sellers Listing These Tech Products - Here's Why bgr.com</div>
+    <div class="card-bg"><span class="bg-label">背景</span>来源：bgr.com | 监测关键词：Amazon  return  policy  compliance  restriction</div>
+    <div class="card-link"><span class="section-label">链接</span><a href="https://news.google.com/rss/articles/CBMiekFVX3lxTE1FcXR2dy1TSncxcHluNmZ6aEE5STd2TTZKZEVGaGEyX3lVS0IwbjFVWFJJdml3bEU2MzlSQkNtSU1XQ094V3NpNHYyUVF2V2FNRHdYMWdDOHBQZG1Vd3ZkNTQ0OUg5Nk81eEVxMTQxR1VWbGEzTEZMUWtn?oc=5" target="_blank" rel="noopener">https://news.google.com/rss/articles/CBMiekFVX3lxTE1FcXR2dy1TSncxcHluNmZ6aEE5STd...</a></div>
+</div><div class="card-item">
+    <div class="card-header">
+        <span class="source-tag tag-gn">Google News</span>
+        <a href="https://news.google.com/rss/articles/CBMilwFBVV95cUxOTDgtQzI2TnA4NXFpRlVKNlRGYXQweThCVk1HVkYzYzBJV2ZZTjdaX2Z3WGZ5TGo3cEFKXzA0LXBLeTJoeTRoSXZMTjlNaDBkWlV6bTFsRjd3WEpzTkFRTFNhUE1TUUh1cU0xaGd2S1JqUmZoY1g0WXdNVTBlS1Z1cXlsNHkxaVB0eHUtRHZvZmFYbUxvMU5z?oc=5" target="_blank" rel="noopener" class="card-title">Amazon Engineers Revolt Over AI Tool Restrictions</a>
+        <span class="time">2026-05-09</span>
+    </div>
+    <div class="card-summary"><span class="section-label">总结</span>Amazon Engineers Revolt Over AI Tool Restrictions TechRepublic</div>
+    <div class="card-bg"><span class="bg-label">背景</span>来源：TechRepublic | 监测关键词：Amazon  return  policy  compliance  restriction</div>
+    <div class="card-link"><span class="section-label">链接</span><a href="https://news.google.com/rss/articles/CBMilwFBVV95cUxOTDgtQzI2TnA4NXFpRlVKNlRGYXQweThCVk1HVkYzYzBJV2ZZTjdaX2Z3WGZ5TGo3cEFKXzA0LXBLeTJoeTRoSXZMTjlNaDBkWlV6bTFsRjd3WEpzTkFRTFNhUE1TUUh1cU0xaGd2S1JqUmZoY1g0WXdNVTBlS1Z1cXlsNHkxaVB0eHUtRHZvZmFYbUxvMU5z?oc=5" target="_blank" rel="noopener">https://news.google.com/rss/articles/CBMilwFBVV95cUxOTDgtQzI2TnA4NXFpRlVKNlRGYXQ...</a></div>
+</div><div class="card-item">
+    <div class="card-header">
+        <span class="source-tag tag-gn">Google News</span>
+        <a href="https://news.google.com/rss/articles/CBMirgFBVV95cUxPdEVSMUpoWmw1cXdMWVNRNy1oalo3UlpKNTV4cjN1dXlrRk5FWVhWVmcwWjZPaG56cFVoOWR5V19faXl5c00xZFNoM2d2Si1yWUdOLTRPWGtobHdFa0lTUFNMN2hZQ2ljVW1JSlJJMDMwQ1ktRm1nR08yMFlyMGtLcnBMQjl0cGN1TFdfeEpjV2l6aWJGMXAwS3lfdWFHcUM3ZEZPck5sQ3ZfeHBWRkE?oc=5" target="_blank" rel="noopener" class="card-title">Amazon Sellers Have 2 Weeks to Ensure Compliance of Tools They Use</a>
+        <span class="time">2026-05-09</span>
+    </div>
+    <div class="card-summary"><span class="section-label">总结</span>Amazon Sellers Have 2 Weeks to Ensure Compliance of Tools They Use EcommerceBytes</div>
+    <div class="card-bg"><span class="bg-label">背景</span>来源：EcommerceBytes | 监测关键词：Amazon  return  policy  compliance  restriction</div>
+    <div class="card-link"><span class="section-label">链接</span><a href="https://news.google.com/rss/articles/CBMirgFBVV95cUxPdEVSMUpoWmw1cXdMWVNRNy1oalo3UlpKNTV4cjN1dXlrRk5FWVhWVmcwWjZPaG56cFVoOWR5V19faXl5c00xZFNoM2d2Si1yWUdOLTRPWGtobHdFa0lTUFNMN2hZQ2ljVW1JSlJJMDMwQ1ktRm1nR08yMFlyMGtLcnBMQjl0cGN1TFdfeEpjV2l6aWJGMXAwS3lfdWFHcUM3ZEZPck5sQ3ZfeHBWRkE?oc=5" target="_blank" rel="noopener">https://news.google.com/rss/articles/CBMirgFBVV95cUxPdEVSMUpoWmw1cXdMWVNRNy1oalo...</a></div>
+</div><div class="card-item">
+    <div class="card-header">
+        <span class="source-tag tag-gn">Google News</span>
+        <a href="https://news.google.com/rss/articles/CBMingFBVV95cUxQVlhfeUl0STBwdWQ4c2dVdDRIUDVkMzlXNHA5bTlfTTJDaDJOVTAzWlZSLU5CUjRKZ3JwMnhCa3F0cjBUSmpyNW02T3lLRXdaeUR3YkFIMlFpZG1tUzgtZFVkcl9GeDBGcmk4NTNzUHc2Yy1QRlZHMjlHSDI5azNibWpzTjZsNzhyT1BzRTJoM3dzd0szTWZGYWtUeEcwQQ?oc=5" target="_blank" rel="noopener" class="card-title">Amazon Sellers Protest Policy Changes With One-Day Ad Boycott</a>
+        <span class="time">2026-05-09</span>
+    </div>
+    <div class="card-summary"><span class="section-label">总结</span>Amazon Sellers Protest Policy Changes With One-Day Ad Boycott PYMNTS.com</div>
+    <div class="card-bg"><span class="bg-label">背景</span>来源：PYMNTS.com | 监测关键词：Amazon  seller  policy  change  fee</div>
+    <div class="card-link"><span class="section-label">链接</span><a href="https://news.google.com/rss/articles/CBMingFBVV95cUxQVlhfeUl0STBwdWQ4c2dVdDRIUDVkMzlXNHA5bTlfTTJDaDJOVTAzWlZSLU5CUjRKZ3JwMnhCa3F0cjBUSmpyNW02T3lLRXdaeUR3YkFIMlFpZG1tUzgtZFVkcl9GeDBGcmk4NTNzUHc2Yy1QRlZHMjlHSDI5azNibWpzTjZsNzhyT1BzRTJoM3dzd0szTWZGYWtUeEcwQQ?oc=5" target="_blank" rel="noopener">https://news.google.com/rss/articles/CBMingFBVV95cUxQVlhfeUl0STBwdWQ4c2dVdDRIUDV...</a></div>
+</div><div class="card-item">
+    <div class="card-header">
+        <span class="source-tag tag-gn">Google News</span>
+        <a href="https://news.google.com/rss/articles/CBMilAFBVV95cUxPcmg2V2VQT0Juc3dkVHp2Z0djWldjaVpxc1ppcVB3MFlEWmRtSDVtV2hVQXRseTIzdFBURnFoSGVmUTlRTkJLZmZ1NF92VHFKZjZUVWVfandvdHowcFJNNDhJVTlRV0tiLUVqWkkybDlMQ21DYWx0M0lKR0VWc0xfNmNCUVJuSTZoSGktaDJxYjVXY3ZY?oc=5" target="_blank" rel="noopener" class="card-title">Amazon Sellers Stage Ad Boycott Over Margin-Crushing Fees</a>
+        <span class="time">2026-05-09</span>
+    </div>
+    <div class="card-summary"><span class="section-label">总结</span>Amazon Sellers Stage Ad Boycott Over Margin-Crushing Fees The Tech Buzz</div>
+    <div class="card-bg"><span class="bg-label">背景</span>来源：The Tech Buzz | 监测关键词：Amazon  seller  policy  change  fee</div>
+    <div class="card-link"><span class="section-label">链接</span><a href="https://news.google.com/rss/articles/CBMilAFBVV95cUxPcmg2V2VQT0Juc3dkVHp2Z0djWldjaVpxc1ppcVB3MFlEWmRtSDVtV2hVQXRseTIzdFBURnFoSGVmUTlRTkJLZmZ1NF92VHFKZjZUVWVfandvdHowcFJNNDhJVTlRV0tiLUVqWkkybDlMQ21DYWx0M0lKR0VWc0xfNmNCUVJuSTZoSGktaDJxYjVXY3ZY?oc=5" target="_blank" rel="noopener">https://news.google.com/rss/articles/CBMilAFBVV95cUxPcmg2V2VQT0Juc3dkVHp2Z0djWld...</a></div>
+</div><div class="card-item">
+    <div class="card-header">
+        <span class="source-tag tag-gn">Google News</span>
+        <a href="https://news.google.com/rss/articles/CBMiqAFBVV95cUxNaW91dWxqVF83b3h2QUZtRF9HTUlaS29JZ2wxME1ZSjVkVDBlSGtFMmNraVVBMTZkTmNpTFRzSkpEdW16U1V4b21mUUNXZmN6Y083VVh1MzdINVdjUlJVZllFclhfaElPbFJjUF8ydi1VNVhDZzBmLVlBdUMxWGpYLUNaNkI5dWVXSG5xSmVLT2xPcHBJbEIza2FxampENWtLekVwUWxxTUE?oc=5" target="_blank" rel="noopener" class="card-title">Amazon and Walmart fined for selling banned refrigerant in WA</a>
+        <span class="time">2026-05-09</span>
+    </div>
+    <div class="card-summary"><span class="section-label">总结</span>Amazon and Walmart fined for selling banned refrigerant in WA Washington State Standard</div>
+    <div class="card-bg"><span class="bg-label">背景</span>来源：Washington State Standard | 监测关键词：Amazon  return  policy  compliance  restriction</div>
+    <div class="card-link"><span class="section-label">链接</span><a href="https://news.google.com/rss/articles/CBMiqAFBVV95cUxNaW91dWxqVF83b3h2QUZtRF9HTUlaS29JZ2wxME1ZSjVkVDBlSGtFMmNraVVBMTZkTmNpTFRzSkpEdW16U1V4b21mUUNXZmN6Y083VVh1MzdINVdjUlJVZllFclhfaElPbFJjUF8ydi1VNVhDZzBmLVlBdUMxWGpYLUNaNkI5dWVXSG5xSmVLT2xPcHBJbEIza2FxampENWtLekVwUWxxTUE?oc=5" target="_blank" rel="noopener">https://news.google.com/rss/articles/CBMiqAFBVV95cUxNaW91dWxqVF83b3h2QUZtRF9HTUl...</a></div>
+</div><div class="card-item">
+    <div class="card-header">
+        <span class="source-tag tag-gn">Google News</span>
+        <a href="https://news.google.com/rss/articles/CBMikAFBVV95cUxNbGNZYVR2M2xfVEtOU1N4V0ZOdlkweEZTR2JlYTZwYmRXa3pWMkhMRUZiXzZXLUhBb1NfMFZhc1ZEOEpUZlJZeUF6Vy1JM05PVUxsYXJTZ0FGS1Y4WmpFbXg1dDBLTENTbGRfR3dTX3gyZVBGeHBsbjBCV3lQMTE2bmZaaWljZXU5NGhLY1c4SWw?oc=5" target="_blank" rel="noopener" class="card-title">Amazon changes how sellers pay for FBA removals with per-unit billing</a>
+        <span class="time">2026-05-09</span>
+    </div>
+    <div class="card-summary"><span class="section-label">总结</span>Amazon changes how sellers pay for FBA removals with per-unit billing PPC Land</div>
+    <div class="card-bg"><span class="bg-label">背景</span>来源：PPC Land | 监测关键词：Amazon  seller  policy  change  fee</div>
+    <div class="card-link"><span class="section-label">链接</span><a href="https://news.google.com/rss/articles/CBMikAFBVV95cUxNbGNZYVR2M2xfVEtOU1N4V0ZOdlkweEZTR2JlYTZwYmRXa3pWMkhMRUZiXzZXLUhBb1NfMFZhc1ZEOEpUZlJZeUF6Vy1JM05PVUxsYXJTZ0FGS1Y4WmpFbXg1dDBLTENTbGRfR3dTX3gyZVBGeHBsbjBCV3lQMTE2bmZaaWljZXU5NGhLY1c4SWw?oc=5" target="_blank" rel="noopener">https://news.google.com/rss/articles/CBMikAFBVV95cUxNbGNZYVR2M2xfVEtOU1N4V0ZOdlk...</a></div>
+</div><div class="card-item">
+    <div class="card-header">
+        <span class="source-tag tag-gn">Google News</span>
+        <a href="https://news.google.com/rss/articles/CBMikwFBVV95cUxQc1dRRUxtTmVLVWs5RzI1R3BRQzV3S2JEekd5YzdacmVWT1BkRkJnTVFHYkZoOHJWYnd3U3NjN25Oa20xRVBGR29PZWh4MDhRT1dYREJvRlJqOXBJazF1QU1EYWdSSzhVdXJDak5VZF84Z2k2WHJEUjNmZjBTQVRLZ0YyMjVkWTNPTVRrTXZTZVpabTg?oc=5" target="_blank" rel="noopener" class="card-title">Amazon ends FBA commingling on March 31</a>
+        <span class="time">2026-05-09</span>
+    </div>
+    <div class="card-summary"><span class="section-label">总结</span>Amazon ends FBA commingling on March 31 - what really changes for sellers PPC Land</div>
+    <div class="card-bg"><span class="bg-label">背景</span>来源：PPC Land | 监测关键词：Amazon  FBA  policy  update  requirement</div>
+    <div class="card-link"><span class="section-label">链接</span><a href="https://news.google.com/rss/articles/CBMikwFBVV95cUxQc1dRRUxtTmVLVWs5RzI1R3BRQzV3S2JEekd5YzdacmVWT1BkRkJnTVFHYkZoOHJWYnd3U3NjN25Oa20xRVBGR29PZWh4MDhRT1dYREJvRlJqOXBJazF1QU1EYWdSSzhVdXJDak5VZF84Z2k2WHJEUjNmZjBTQVRLZ0YyMjVkWTNPTVRrTXZTZVpabTg?oc=5" target="_blank" rel="noopener">https://news.google.com/rss/articles/CBMikwFBVV95cUxQc1dRRUxtTmVLVWs5RzI1R3BRQzV...</a></div>
+</div><div class="card-item">
+    <div class="card-header">
+        <span class="source-tag tag-gn">Google News</span>
+        <a href="https://news.google.com/rss/articles/CBMivAFBVV95cUxORzBmZWVlc2FPMlBNYzJ0RzhKem4wb3Bzem9TdnNHaWF3UmpBWHpXT044aHB6aWpCTWJtWkNQMlhjVmZKMTdqSmRoQ2kzcXprR0V0ME95Y05vLV9DdklsZFRvSFhQOGpnT0tYTW04aURMMVNTZW15MXRqeXctSXlxVFplQnpscHhMNVpHeWV3a0xHRzgyWFRuM09UT21SSXZXZHVqWDYtSVZPSWlRUldTaWlkZ3k2OFViVDVoeNIBwgFBVV95cUxNTnhqenhqR1FZVjFCSDF4WEFhTjY0RllJbzNobWdjdUY1cXR0Q0RxdG1VMTA0bTlxT0luODZXM0N6YnRobVZjOHZyX2ljLTdrZnI4T2prbEctNzZycFZ4UzZNM2RqWXlta2tlWkNPaEIzclJIZ3VkMEJvazVPaTg0V2lHTDI2dUVNYlprSExaX2pUTm9PTktUWXFnLWNJZWY3S3RsMUZaOXo3QjRzanhoNzJiT0ZyOGdsVTYybDB1Z1Qydw?oc=5" target="_blank" rel="noopener" class="card-title">Amazon flags excessive returns, cancellations as risk to customer accounts</a>
+        <span class="time">2026-05-09</span>
+    </div>
+    <div class="card-summary"><span class="section-label">总结</span>Amazon flags excessive returns, cancellations as risk to customer accounts Storyboard18</div>
+    <div class="card-bg"><span class="bg-label">背景</span>来源：Storyboard18 | 监测关键词：Amazon  return  policy  compliance  restriction</div>
+    <div class="card-link"><span class="section-label">链接</span><a href="https://news.google.com/rss/articles/CBMivAFBVV95cUxORzBmZWVlc2FPMlBNYzJ0RzhKem4wb3Bzem9TdnNHaWF3UmpBWHpXT044aHB6aWpCTWJtWkNQMlhjVmZKMTdqSmRoQ2kzcXprR0V0ME95Y05vLV9DdklsZFRvSFhQOGpnT0tYTW04aURMMVNTZW15MXRqeXctSXlxVFplQnpscHhMNVpHeWV3a0xHRzgyWFRuM09UT21SSXZXZHVqWDYtSVZPSWlRUldTaWlkZ3k2OFViVDVoeNIBwgFBVV95cUxNTnhqenhqR1FZVjFCSDF4WEFhTjY0RllJbzNobWdjdUY1cXR0Q0RxdG1VMTA0bTlxT0luODZXM0N6YnRobVZjOHZyX2ljLTdrZnI4T2prbEctNzZycFZ4UzZNM2RqWXlta2tlWkNPaEIzclJIZ3VkMEJvazVPaTg0V2lHTDI2dUVNYlprSExaX2pUTm9PTktUWXFnLWNJZWY3S3RsMUZaOXo3QjRzanhoNzJiT0ZyOGdsVTYybDB1Z1Qydw?oc=5" target="_blank" rel="noopener">https://news.google.com/rss/articles/CBMivAFBVV95cUxORzBmZWVlc2FPMlBNYzJ0RzhKem4...</a></div>
+</div><div class="card-item">
+    <div class="card-header">
+        <span class="source-tag tag-gn">Google News</span>
+        <a href="https://news.google.com/rss/articles/CBMihgFBVV95cUxOdVpWbWJBNG1Yc0lHclB4dGJzaEpSOGRkWHZ6VXlReW9nRF9DUTlDOFhnQ3FEbDRiYlhyWHBpamYwd0g2by1uOHR1VlJnMl9GcG1BSmdoZnQ2TlFGYkVucHBrWWhqZHhpQkR1VWFfcWlBSFYtc2NVWDZESDdEMlRIekZ5YUk0dw?oc=5" target="_blank" rel="noopener" class="card-title">Amazon requires testing for all supplements</a>
+        <span class="time">2026-05-09</span>
+    </div>
+    <div class="card-summary"><span class="section-label">总结</span>Amazon requires testing for all supplements SupplySide Supplement Journal</div>
+    <div class="card-bg"><span class="bg-label">背景</span>来源：SupplySide Supplement Journal | 监测关键词：Amazon  FBA  policy  update  requirement</div>
+    <div class="card-link"><span class="section-label">链接</span><a href="https://news.google.com/rss/articles/CBMihgFBVV95cUxOdVpWbWJBNG1Yc0lHclB4dGJzaEpSOGRkWHZ6VXlReW9nRF9DUTlDOFhnQ3FEbDRiYlhyWHBpamYwd0g2by1uOHR1VlJnMl9GcG1BSmdoZnQ2TlFGYkVucHBrWWhqZHhpQkR1VWFfcWlBSFYtc2NVWDZESDdEMlRIekZ5YUk0dw?oc=5" target="_blank" rel="noopener">https://news.google.com/rss/articles/CBMihgFBVV95cUxOdVpWbWJBNG1Yc0lHclB4dGJzaEp...</a></div>
+</div>
+</div>
+<div class="section">
+    <h2>📈 小家电趋势 <span class="count">(1条)</span></h2>
+    <div class="card-item">
+    <div class="card-header">
+        <span class="source-tag tag-manual">手动</span>
+        <a href="https://trends.google.com/trends/explore?geo=US&q=kitchen%20appliance,coffee%20maker,air%20fryer" target="_blank" rel="noopener" class="card-title">今日自动数据较少，建议手动查看</a>
+        <span class="time">2026-05-09</span>
+    </div>
+    <div class="card-summary"><span class="section-label">总结</span>Google Trends 自动采集未获取到足够数据，可点击链接手动查看小家电品类趋势</div>
+    <div class="card-bg"><span class="bg-label">背景</span>建议关注的趋势关键词：premium kitchen appliance, smart coffee maker, portable blender, ice maker, soda maker, electric kettle, air purifier。也可查看 Amazon Best Sellers Kitchen 品类、TikTok Creative Center 热门标签</div>
+    <div class="card-link"><span class="section-label">链接</span><a href="https://trends.google.com/trends/explore?geo=US&q=kitchen%20appliance,coffee%20maker,air%20fryer" target="_blank" rel="noopener">https://trends.google.com/trends/explore?geo=US&q=kitchen%20appliance,coffee%20m...</a></div>
+</div>
+</div>
+<div class="section">
+    <h2>🤖 AI & Vibe Coding <span class="count">(20条)</span></h2>
+    <div class="card-item">
+    <div class="card-header">
+        <span class="source-tag tag-hn">HN</span>
+        <a href="https://www.jefftk.com/p/ai-is-breaking-two-vulnerability-cultures" target="_blank" rel="noopener" class="card-title">AI is breaking two vulnerability cultures</a>
+        <span class="time">2026-05-09</span>
+    </div>
+    <div class="card-summary"><span class="section-label">总结</span>Article URL: https://www.jefftk.com/p/ai-is-breaking-two-vulnerability-cultures Comments URL: https://news.ycombinator.com/item?id=48066524 Points: 310 # Comments: 128</div>
+    <div class="card-bg"><span class="bg-label">背景</span>HN 社区讨论帖，[查看HN评论](https://news.ycombinator.com/item?id=48066524)</div>
+    <div class="card-link"><span class="section-label">链接</span><a href="https://www.jefftk.com/p/ai-is-breaking-two-vulnerability-cultures" target="_blank" rel="noopener">https://www.jefftk.com/p/ai-is-breaking-two-vulnerability-cultures</a></div>
+</div><div class="card-item">
+    <div class="card-header">
+        <span class="source-tag tag-ph">Product Hunt</span>
+        <a href="https://www.producthunt.com/products/kushoai" target="_blank" rel="noopener" class="card-title">APIEval-20</a>
+        <span class="time">2026-05-09</span>
+    </div>
+    <div class="card-summary"><span class="section-label">总结</span>An open benchmark for AI agents that test APIs Discussion |
+            <a href="http://www.producthunt.com/r/p/11</div>
+    <div class="card-bg"><span class="bg-label">背景</span>Product Hunt 今日热门产品，标签：AI/工具</div>
+    <div class="card-link"><span class="section-label">链接</span><a href="https://www.producthunt.com/products/kushoai" target="_blank" rel="noopener">https://www.producthunt.com/products/kushoai</a></div>
+</div><div class="card-item">
+    <div class="card-header">
+        <span class="source-tag tag-jj">掘金</span>
+        <a href="https://juejin.cn/post/7637515073078263842" target="_blank" rel="noopener" class="card-title">AgentRun CLI v0.1.0 正式开源：一行命令运行您的托管 Agent</a>
+        <span class="time">2026-05-09</span>
+    </div>
+    <div class="card-summary"><span class="section-label">总结</span>AgentRun CLI v0.1.0 正式开源发布，同时 AgentRun Python SDK 也迎来了同步迭代，原生支持超级 Agent（Super Agent）的定义与调用。代码仓库现已全面开</div>
+    <div class="card-bg"><span class="bg-label">背景</span>掘金开发者社区热门文章</div>
+    <div class="card-link"><span class="section-label">链接</span><a href="https://juejin.cn/post/7637515073078263842" target="_blank" rel="noopener">https://juejin.cn/post/7637515073078263842</a></div>
+</div><div class="card-item">
+    <div class="card-header">
+        <span class="source-tag tag-iq">InfoQ</span>
+        <a href="https://www.infoq.cn/article/gAkVCqphr0A1r2PLSWDz?utm_source=rss&utm_medium=article" target="_blank" rel="noopener" class="card-title">Anthropic最新论文撬开大模型黑箱：隐藏动机发现率提升4倍以上</a>
+        <span class="time">2026-05-09</span>
+    </div>
+    <div class="card-summary"><span class="section-label">总结</span>点击查看原文></div>
+    <div class="card-bg"><span class="bg-label">背景</span>InfoQ 中国专业技术媒体，关注前沿技术动态与架构实践</div>
+    <div class="card-link"><span class="section-label">链接</span><a href="https://www.infoq.cn/article/gAkVCqphr0A1r2PLSWDz?utm_source=rss&utm_medium=article" target="_blank" rel="noopener">https://www.infoq.cn/article/gAkVCqphr0A1r2PLSWDz?utm_source=rss&utm_medium=arti...</a></div>
+</div><div class="card-item">
+    <div class="card-header">
+        <span class="source-tag tag-ph">Product Hunt</span>
+        <a href="https://www.producthunt.com/products/bna-code" target="_blank" rel="noopener" class="card-title">BNA Code</a>
+        <span class="time">2026-05-09</span>
+    </div>
+    <div class="card-summary"><span class="section-label">总结</span>CLI agent that builds full-stack mobile apps from terminal Discussion |
+            <a href="http://www.producthu</div>
+    <div class="card-bg"><span class="bg-label">背景</span>Product Hunt 今日热门产品，标签：AI/工具</div>
+    <div class="card-link"><span class="section-label">链接</span><a href="https://www.producthunt.com/products/bna-code" target="_blank" rel="noopener">https://www.producthunt.com/products/bna-code</a></div>
+</div><div class="card-item">
+    <div class="card-header">
+        <span class="source-tag tag-ph">Product Hunt</span>
+        <a href="https://www.producthunt.com/products/are-you-beeing-spreaded" target="_blank" rel="noopener" class="card-title">Benchmark</a>
+        <span class="time">2026-05-09</span>
+    </div>
+    <div class="card-summary"><span class="section-label">总结</span>Upload a fintech proposal & see if the price is fair Discussion |
+            <a href="http://www.</div>
+    <div class="card-bg"><span class="bg-label">背景</span>Product Hunt 今日热门产品，标签：AI/工具</div>
+    <div class="card-link"><span class="section-label">链接</span><a href="https://www.producthunt.com/products/are-you-beeing-spreaded" target="_blank" rel="noopener">https://www.producthunt.com/products/are-you-beeing-spreaded</a></div>
+</div><div class="card-item">
+    <div class="card-header">
+        <span class="source-tag tag-ph">Product Hunt</span>
+        <a href="https://www.producthunt.com/products/bitfield" target="_blank" rel="noopener" class="card-title">Bitfield</a>
+        <span class="time">2026-05-09</span>
+    </div>
+    <div class="card-summary"><span class="section-label">总结</span>No AI spaghetti code. Agents read state in under 1ns Discussion |
+            <a href="http://www.producthunt.com</div>
+    <div class="card-bg"><span class="bg-label">背景</span>Product Hunt 今日热门产品，标签：AI/工具</div>
+    <div class="card-link"><span class="section-label">链接</span><a href="https://www.producthunt.com/products/bitfield" target="_blank" rel="noopener">https://www.producthunt.com/products/bitfield</a></div>
+</div><div class="card-item">
+    <div class="card-header">
+        <span class="source-tag tag-iq">InfoQ</span>
+        <a href="https://www.infoq.cn/article/FwFo4Gerr0lawgBCyYo1?utm_source=rss&utm_medium=article" target="_blank" rel="noopener" class="card-title">Broadcom将Velero捐赠给 CNCF，将Kubernetes备份功能转向社区治理</a>
+        <span class="time">2026-05-09</span>
+    </div>
+    <div class="card-summary"><span class="section-label">总结</span>点击查看原文></div>
+    <div class="card-bg"><span class="bg-label">背景</span>InfoQ 中国专业技术媒体，关注前沿技术动态与架构实践</div>
+    <div class="card-link"><span class="section-label">链接</span><a href="https://www.infoq.cn/article/FwFo4Gerr0lawgBCyYo1?utm_source=rss&utm_medium=article" target="_blank" rel="noopener">https://www.infoq.cn/article/FwFo4Gerr0lawgBCyYo1?utm_source=rss&utm_medium=arti...</a></div>
+</div><div class="card-item">
+    <div class="card-header">
+        <span class="source-tag tag-iq">InfoQ</span>
+        <a href="https://www.infoq.cn/article/FOy8AahY8bsPveNwwTq1?utm_source=rss&utm_medium=article" target="_blank" rel="noopener" class="card-title">Chrome 开了一个危险的头：偷偷给数亿电脑塞 4GB Gemini 模型，占硬盘、耗算力、删了自动重下</a>
+        <span class="time">2026-05-09</span>
+    </div>
+    <div class="card-summary"><span class="section-label">总结</span>点击查看原文></div>
+    <div class="card-bg"><span class="bg-label">背景</span>InfoQ 中国专业技术媒体，关注前沿技术动态与架构实践</div>
+    <div class="card-link"><span class="section-label">链接</span><a href="https://www.infoq.cn/article/FOy8AahY8bsPveNwwTq1?utm_source=rss&utm_medium=article" target="_blank" rel="noopener">https://www.infoq.cn/article/FOy8AahY8bsPveNwwTq1?utm_source=rss&utm_medium=arti...</a></div>
+</div><div class="card-item">
+    <div class="card-header">
+        <span class="source-tag tag-iq">InfoQ</span>
+        <a href="https://www.infoq.cn/article/wvRSqDH2uloYeu4f6GB0?utm_source=rss&utm_medium=article" target="_blank" rel="noopener" class="card-title">Cloudflare构建了面向LLM的高性能基础设施</a>
+        <span class="time">2026-05-09</span>
+    </div>
+    <div class="card-summary"><span class="section-label">总结</span>点击查看原文></div>
+    <div class="card-bg"><span class="bg-label">背景</span>InfoQ 中国专业技术媒体，关注前沿技术动态与架构实践</div>
+    <div class="card-link"><span class="section-label">链接</span><a href="https://www.infoq.cn/article/wvRSqDH2uloYeu4f6GB0?utm_source=rss&utm_medium=article" target="_blank" rel="noopener">https://www.infoq.cn/article/wvRSqDH2uloYeu4f6GB0?utm_source=rss&utm_medium=arti...</a></div>
+</div><div class="card-item">
+    <div class="card-header">
+        <span class="source-tag tag-iq">InfoQ</span>
+        <a href="https://www.infoq.cn/article/dKD2lUNaMQggrCcQjxw2?utm_source=rss&utm_medium=article" target="_blank" rel="noopener" class="card-title">Confluent将模式ID移至Kafka头部，以简化模式治理</a>
+        <span class="time">2026-05-09</span>
+    </div>
+    <div class="card-summary"><span class="section-label">总结</span>点击查看原文></div>
+    <div class="card-bg"><span class="bg-label">背景</span>InfoQ 中国专业技术媒体，关注前沿技术动态与架构实践</div>
+    <div class="card-link"><span class="section-label">链接</span><a href="https://www.infoq.cn/article/dKD2lUNaMQggrCcQjxw2?utm_source=rss&utm_medium=article" target="_blank" rel="noopener">https://www.infoq.cn/article/dKD2lUNaMQggrCcQjxw2?utm_source=rss&utm_medium=arti...</a></div>
+</div><div class="card-item">
+    <div class="card-header">
+        <span class="source-tag tag-ph">Product Hunt</span>
+        <a href="https://www.producthunt.com/products/contral" target="_blank" rel="noopener" class="card-title">Contral</a>
+        <span class="time">2026-05-09</span>
+    </div>
+    <div class="card-summary"><span class="section-label">总结</span>The agent which teaches while you build Discussion |
+            <a href="http://www.producthunt.com/r/p/1141763?a</div>
+    <div class="card-bg"><span class="bg-label">背景</span>Product Hunt 今日热门产品，标签：AI/工具</div>
+    <div class="card-link"><span class="section-label">链接</span><a href="https://www.producthunt.com/products/contral" target="_blank" rel="noopener">https://www.producthunt.com/products/contral</a></div>
+</div><div class="card-item">
+    <div class="card-header">
+        <span class="source-tag tag-hn">HN</span>
+        <a href="https://www.coveragecat.com/careers/engineering/fractional-growth-engineer" target="_blank" rel="noopener" class="card-title">Coverage Cat (YC S22) Seeks Fractional Engineer to Build AI Growth Toolkit</a>
+        <span class="time">2026-05-09</span>
+    </div>
+    <div class="card-summary"><span class="section-label">总结</span>Article URL: https://www.coveragecat.com/careers/engineering/fractional-growth-engineer Comments URL: https://news.ycombinator.com/item?id=48035223 Points: 0 # Comments: 0</div>
+    <div class="card-bg"><span class="bg-label">背景</span>HN 社区讨论帖，[查看HN评论](https://news.ycombinator.com/item?id=48035223)</div>
+    <div class="card-link"><span class="section-label">链接</span><a href="https://www.coveragecat.com/careers/engineering/fractional-growth-engineer" target="_blank" rel="noopener">https://www.coveragecat.com/careers/engineering/fractional-growth-engineer</a></div>
+</div><div class="card-item">
+    <div class="card-header">
+        <span class="source-tag tag-jj">掘金</span>
+        <a href="https://juejin.cn/post/7637348327560183846" target="_blank" rel="noopener" class="card-title">Day4、10个排查网络问题的命令行工具：每个配真实输出，建议收藏</a>
+        <span class="time">2026-05-09</span>
+    </div>
+    <div class="card-summary"><span class="section-label">总结</span>10个排查网络问题的命令行工具：每个配真实输出，建议收藏 前言 线上出问题的时候，最怕的不是问题本身，而是不知道用什么工具去看。 ping不通？是网络不通还是端口没开？DNS没解析？是本地缓存还是权威</div>
+    <div class="card-bg"><span class="bg-label">背景</span>掘金开发者社区热门文章</div>
+    <div class="card-link"><span class="section-label">链接</span><a href="https://juejin.cn/post/7637348327560183846" target="_blank" rel="noopener">https://juejin.cn/post/7637348327560183846</a></div>
+</div><div class="card-item">
+    <div class="card-header">
+        <span class="source-tag tag-iq">InfoQ</span>
+        <a href="https://www.infoq.cn/article/dWBoVzphLY2HgoB0TwsU?utm_source=rss&utm_medium=article" target="_blank" rel="noopener" class="card-title">DoorDash利用Copilot将基于XCTest的iOS测试套件转换为Swift Testing</a>
+        <span class="time">2026-05-09</span>
+    </div>
+    <div class="card-summary"><span class="section-label">总结</span>点击查看原文></div>
+    <div class="card-bg"><span class="bg-label">背景</span>InfoQ 中国专业技术媒体，关注前沿技术动态与架构实践</div>
+    <div class="card-link"><span class="section-label">链接</span><a href="https://www.infoq.cn/article/dWBoVzphLY2HgoB0TwsU?utm_source=rss&utm_medium=article" target="_blank" rel="noopener">https://www.infoq.cn/article/dWBoVzphLY2HgoB0TwsU?utm_source=rss&utm_medium=arti...</a></div>
+</div><div class="card-item">
+    <div class="card-header">
+        <span class="source-tag tag-iq">InfoQ</span>
+        <a href="https://www.infoq.cn/article/w9R1DwXoM3yKbjzcV94H?utm_source=rss&utm_medium=article" target="_blank" rel="noopener" class="card-title">DuckLake 1.0：具有SQL目录元数据的数据湖格式</a>
+        <span class="time">2026-05-09</span>
+    </div>
+    <div class="card-summary"><span class="section-label">总结</span>点击查看原文></div>
+    <div class="card-bg"><span class="bg-label">背景</span>InfoQ 中国专业技术媒体，关注前沿技术动态与架构实践</div>
+    <div class="card-link"><span class="section-label">链接</span><a href="https://www.infoq.cn/article/w9R1DwXoM3yKbjzcV94H?utm_source=rss&utm_medium=article" target="_blank" rel="noopener">https://www.infoq.cn/article/w9R1DwXoM3yKbjzcV94H?utm_source=rss&utm_medium=arti...</a></div>
+</div><div class="card-item">
+    <div class="card-header">
+        <span class="source-tag tag-ph">Product Hunt</span>
+        <a href="https://www.producthunt.com/products/nyx-4" target="_blank" rel="noopener" class="card-title">Fabraix</a>
+        <span class="time">2026-05-09</span>
+    </div>
+    <div class="card-summary"><span class="section-label">总结</span>Find gaps in your AI agents before users do Discussion |
+            <a href="http://www.producthunt.com/r/p/1141665</div>
+    <div class="card-bg"><span class="bg-label">背景</span>Product Hunt 今日热门产品，标签：AI/工具</div>
+    <div class="card-link"><span class="section-label">链接</span><a href="https://www.producthunt.com/products/nyx-4" target="_blank" rel="noopener">https://www.producthunt.com/products/nyx-4</a></div>
+</div><div class="card-item">
+    <div class="card-header">
+        <span class="source-tag tag-ph">Product Hunt</span>
+        <a href="https://www.producthunt.com/products/finlingo" target="_blank" rel="noopener" class="card-title">Finlingo</a>
+        <span class="time">2026-05-09</span>
+    </div>
+    <div class="card-summary"><span class="section-label">总结</span>Your own AI CFO, watching your money on autopilot Discussion |
+            <a href="http://www.producthunt.com/r/</div>
+    <div class="card-bg"><span class="bg-label">背景</span>Product Hunt 今日热门产品，标签：AI/工具</div>
+    <div class="card-link"><span class="section-label">链接</span><a href="https://www.producthunt.com/products/finlingo" target="_blank" rel="noopener">https://www.producthunt.com/products/finlingo</a></div>
+</div><div class="card-item">
+    <div class="card-header">
+        <span class="source-tag tag-gh">GitHub</span>
+        <a href="https://github.com/HKUDS/AI-Trader" target="_blank" rel="noopener" class="card-title">HKUDS / AI-Trader</a>
+        <span class="time">2026-05-09</span>
+    </div>
+    <div class="card-summary"><span class="section-label">总结</span>[Python] "AI-Trader: 100% Fully-Automated Agent-Native Trading"</div>
+    <div class="card-bg"><span class="bg-label">背景</span>GitHub Trending 今日热门仓库（202 stars today），语言：Python</div>
+    <div class="card-link"><span class="section-label">链接</span><a href="https://github.com/HKUDS/AI-Trader" target="_blank" rel="noopener">https://github.com/HKUDS/AI-Trader</a></div>
+</div><div class="card-item">
+    <div class="card-header">
+        <span class="source-tag tag-gh">GitHub</span>
+        <a href="https://github.com/Hmbown/DeepSeek-TUI" target="_blank" rel="noopener" class="card-title">Hmbown / DeepSeek-TUI</a>
+        <span class="time">2026-05-09</span>
+    </div>
+    <div class="card-summary"><span class="section-label">总结</span>[Rust] Coding agent for DeepSeek models that runs in your terminal</div>
+    <div class="card-bg"><span class="bg-label">背景</span>GitHub Trending 今日热门仓库（3,731 stars today），语言：Rust</div>
+    <div class="card-link"><span class="section-label">链接</span><a href="https://github.com/Hmbown/DeepSeek-TUI" target="_blank" rel="noopener">https://github.com/Hmbown/DeepSeek-TUI</a></div>
+</div>
+</div>
+
+</div>
+
+<div class="footer">
+    <p>自动采集生成于 2026-05-09 14:48 · 数据来源: Hacker News / GitHub / Product Hunt / 掘金 / InfoQ / Google News / Google Trends</p>
+    <p style="margin-top:6px;"><a href="archive.html">查看历史日报</a> · 内容仅供参考</p>
+</div>
+
+</body></html>

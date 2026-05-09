@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>历史归档 — 信息日报</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, "Microsoft YaHei", sans-serif; background:#f5f6fa; color:#333; }
+.header { background: linear-gradient(135deg, #0f2027, #203a43, #2c5364); color:#fff; padding:28px 24px; text-align:center; }
+.header h1 { font-size:24px; margin-bottom:4px; }
+.header .meta { font-size:13px; opacity:.75; }
+.nav { background:#fff; border-bottom:1px solid #e0e0e0; padding:0 24px; display:flex; gap:0; justify-content:center; }
+.nav a { padding:10px 20px; text-decoration:none; color:#555; font-size:14px; font-weight:500; border-bottom:2px solid transparent; }
+.nav a:hover, .nav a.active { color:#2c5364; border-bottom-color:#2c5364; }
+.container { max-width:700px; margin:0 auto; padding:24px; }
+.section { background:#fff; border-radius:10px; padding:24px; box-shadow:0 1px 3px rgba(0,0,0,0.06); }
+.section h2 { font-size:18px; margin-bottom:16px; }
+.archive-list { list-style:none; }
+.archive-list li { padding:10px 0; border-bottom:1px solid #f0f0f0; display:flex; align-items:center; gap:10px; }
+.archive-list li a { color:#2c5364; text-decoration:none; font-weight:500; font-size:15px; }
+.archive-list li a:hover { text-decoration:underline; }
+.archive-list .wd { color:#bbb; font-size:12px; }
+.count { color:#999; font-size:12px; margin-left:auto; }
+.footer { text-align:center; color:#bbb; font-size:12px; padding:30px; }
+.footer a { color:#999; text-decoration:none; }
+@media (max-width: 640px) {
+    .container { padding:10px; }
+}
+</style>
+</head>
+<body>
+<div class="header">
+    <h1>历史归档</h1>
+    <div class="meta">1 天记录</div>
+</div>
+<div class="nav">
+    <a href="index.html">今日</a>
+    <a href="archive.html" class="active">历史归档</a>
+</div>
+<div class="container">
+    <div class="section">
+        <h2>日报列表</h2>
+        <ul class="archive-list">
+            <li><a href="2026/05/09/">2026-05-09</a> <span class="wd">周六</span></li>
+        </ul>
+    </div>
+</div>
+<div class="footer">
+    <p><a href="index.html">返回今日日报</a></p>
+</div>
+</body></html>
