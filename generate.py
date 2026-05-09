@@ -20,7 +20,7 @@ import feedparser
 from bs4 import BeautifulSoup
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-OUTPUT_DIR = os.path.join(BASE_DIR, 'output')
+OUTPUT_DIR = os.path.join(BASE_DIR, 'docs')
 
 # 北京时间
 TZ = timezone(timedelta(hours=8))
