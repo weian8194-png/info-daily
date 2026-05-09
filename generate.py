@@ -104,117 +104,209 @@ def _now_str() -> str:
 #  板块1: 跨境电商平台政策
 # ============================================================
 
+def _fetch_article_text(url: str, max_chars: int = 1500) -> str:
+    """尝试抓取文章正文，用于生成深度总结"""
+    try:
+        resp = requests.get(url, headers=HEADERS, timeout=12)
+        resp.raise_for_status()
+        soup = BeautifulSoup(resp.content, 'html.parser')
+        # 移除 script/style/nav/footer
+        for tag in soup(['script', 'style', 'nav', 'footer', 'header', 'aside']):
+            tag.decompose()
+        # 尝试常见文章容器
+        article = soup.find('article') or soup.select_one('[role="main"]') or soup.body
+        if article:
+            text = article.get_text(' ', strip=True)
+            # 清理多余空白
+            import re
+            text = re.sub(r'\s+', ' ', text)
+            return text[:max_chars]
+    except Exception:
+        pass
+    return ''
+
+def _extract_policy_summary(title: str, raw_desc: str, article_text: str) -> str:
+    """从标题+RSS描述+正文中提取结构化政策总结"""
+    import re
+
+    # 合并所有文本
+    full_text = f'{raw_desc} {article_text}'
+
+    # 提取关键信息
+    # 1. 找日期
+    date_patterns = [
+        r'(\d{4}年\d{1,2}月\d{1,2}日)', r'(\w+ \d{1,2},? \d{4})',
+        r'(effective\s+\w+\s+\d{1,2})', r'(starting\s+\w+\s+\d{1,2})',
+        r'从(\d{1,2}月\d{1,2}日)起', r'自(\d{4}年\d{1,2}月\d{1,2}日)',
+        r'于(\d{1,2}月\d{1,2}日)',
+    ]
+    dates_found = []
+    for pat in date_patterns:
+        matches = re.findall(pat, full_text, re.IGNORECASE)
+        dates_found.extend(matches)
+
+    # 2. 找数字/百分比
+    pct_patterns = [
+        r'(\d+(?:\.\d+)?%)', r'(\$\d+(?:,\d{3})*(?:\.\d+)?)',
+        r'(\d+(?:,\d{3})*美元)', r'涨(?:了)?(\d+(?:\.\d+)?%)',
+        r'(上调|上涨|增加|提高|下调|降低|减少)(\d+(?:\.\d+)?%)',
+        r'(\d+)天', r'(\d+)个月',
+    ]
+    numbers_found = []
+    for pat in pct_patterns:
+        matches = re.findall(pat, full_text)
+        numbers_found.extend([m if isinstance(m, str) else str(m) for m in matches])
+
+    # 3. 构建总结（优先使用正文，回退到RSS描述）
+    source_text = article_text if len(article_text) > 200 else raw_desc
+
+    # 4. 按模板组织总结
+    sentences = []
+    if source_text:
+        # 提取前3-5个完整句子
+        import re as re_mod
+        sents = re_mod.split(r'(?<=[。！？\.!?])\s*', source_text)
+        meaningful = [s.strip() for s in sents if len(s.strip()) > 15][:6]
+
+        if meaningful:
+            # 第1句：政策核心
+            sentences.append(meaningful[0])
+
+            # 第2-3句：影响和细节
+            for s in meaningful[1:3]:
+                if s and len(s) > 15:
+                    sentences.append(s)
+
+            # 如果有提取到日期/数字，加上
+            extra = []
+            if dates_found and not any(d in ''.join(sentences) for d in dates_found[:2]):
+                extra.append(f'生效时间：{dates_found[0]}')
+            if numbers_found and len(numbers_found) > 0:
+                nums_in_text = sum(1 for n in numbers_found[:3] if n not in ''.join(sentences))
+                if nums_in_text > 0:
+                    extra.append(f'关键数据：{", ".join(numbers_found[:3])}')
+            if extra:
+                sentences.append('；'.join(extra))
+
+            return '。'.join(sentences) + ('。' if not sentences[-1].endswith('。') else '')
+
+    # 回退：用 RSS 描述 + 标题
+    if len(raw_desc) > 100:
+        return raw_desc[:600]
+    return f'{title}。详情请查看原文链接。'
+
+# ============================================================
+#  板块1: 跨境电商平台政策
+# ============================================================
+
 def fetch_ecommerce_news() -> list:
-    """采集跨境电商平台政策 — 只保留真正的政策/规则变更类内容"""
+    """只抓平台规则变动：直连电商政策媒体 RSS，过滤后提取正文总结"""
     items = []
 
-    # === 政策精准关键词 ===
-    # 每个关键词对应 Google News RSS 搜索
-    policy_queries = [
-        # 亚马逊政策类
-        'Amazon+ seller+ policy+ change+ fee',
-        'Amazon+ FBA+ policy+ update+ requirement',
-        'Amazon+ return+ policy+ compliance+ restriction',
-        # TEMU 政策类
-        'TEMU+ merchant+ policy+ commission+ rule',
-        # TikTok Shop 政策类
-        'TikTok+ Shop+ seller+ policy+ update',
-        # 跨境电商政策（中文）
-        '跨境电商+ 平台+ 政策+ 新规+ 亚马逊',
-        # 关税/合规类（影响跨境卖家）
-        'US+ tariff+ China+ ecommerce+ de+ minimis',
-    ]
-    # 反关键词：标题含以下词的直接排除（非政策类营销软文/无关内容）
-    anti_keywords = [
-        '选品', '爆款', '测评', '对比', 'vs', 'VS', '干货', '技巧',
-        '教程', '引流', '打法', '黑科技', '秘籍', '日出', '万单',
-        '纯利', '暴利', 'Top', 'review', 'rating', 'best',
-        'Guide', 'guide', 'How to', 'Tips', 'tutorial', 'AWS', 'Config',
-        'stock', 'earnings', 'revenue', 'profit', 'dividend',  # 排除股票财报
+    # === 直连 RSS 源 ===
+    direct_feeds = [
+        # 聚焦卖家政策的媒体
+        ('EcommerceBytes', 'https://www.ecommercebytes.com/rss.xml', 'ECB'),
+        ('PracticalEcommerce', 'https://www.practicalecommerce.com/feed', 'PE'),
+        # 关税/贸易政策
+        ('SupplyChainDive', 'https://www.supplychaindive.com/feeds/news/', 'SCD'),
+        # 支付/金融合规
+        ('PYMNTS', 'https://www.pymnts.com/feed/', 'PYM'),
     ]
 
-    for query in policy_queries:
-        url = f'https://news.google.com/rss/search?q={query}&hl=zh-CN&gl=US&ceid=US:en'
-        entries = _fetch_rss(url)
-        for e in entries[:8]:
+    # 正关键词（必须命中）
+    policy_kw = [
+        'fee', 'charge', 'surcharge', 'commission', 'rate increase',
+        'policy', 'rule', 'regulation', 'requirement', 'compliance',
+        'inventory', 'storage', 'removal', 'returns', 'refund', 'FBA',
+        'restrict', 'ban', 'prohibit', 'suspend', 'mandate',
+        'effective', 'deadline', 'enforcement', 'penalty',
+        'tariff', 'de minimis', 'Section 321', 'Section 301',
+        'VAT', 'EPR', 'CPSC', 'FDA recall',
+        'listing requirement', 'category restriction', 'verification',
+        'Amazon seller', 'Amazon FBA', 'Amazon fulfillment',
+        'TikTok Shop', 'TEMU', 'Walmart marketplace', 'Walmart seller',
+    ]
+
+    # 反关键词
+    anti_kw = [
+        'stock price', 'earnings report', 'revenue growth', 'profit margin',
+        'dividend', 'quarterly result', 'wall street', 'share price',
+        'best gift', 'top 10', 'top 5', 'review roundup',
+        'how to', 'tips for', 'tutorial', 'explained:', 'complete guide',
+        'outlook 2026', 'forecast', 'prediction', 'trend report',
+        'CES 2026', 'conference', 'summit', 'webinar',
+        'CEO', 'CFO', 'executive', 'turnaround', 'appointed',
+        'Google Ads', 'SEO', 'content marketing', 'social media marketing',
+        'old navy', 'gap inc', 'macy', 'target corp', 'walmart inc',
+        'earnings per share', 'same-store sales',
+    ]
+
+    for feed_name, feed_url, feed_tag in direct_feeds:
+        entries = _fetch_rss(feed_url)
+        for e in entries[:15]:
             title = e.get('title', '')
             link = e.get('link', '')
             pub = e.get('published', '')
             pub_dt = _parse_date(pub)
 
-            # 获取完整 RSS 描述（不截断，后续做深度摘要）
-            raw_desc = _clean_html(e.get('summary', e.get('description', '')))
-            if not raw_desc:
+            # 获取完整描述（直连 RSS 有实在内容）
+            raw_desc = _clean_html(
+                e.get('description', '') or
+                e.get('summary', '') or
+                e.get('content', [{}])[0].get('value', '') if e.get('content') else ''
+            )
+
+            if not title or not link:
                 continue
 
-            # 标题清洗
-            clean_title = title.split(' - ')[0].strip()
-            source_part = title.split(' - ')[-1].strip() if ' - ' in title else ''
-
-            # 反关键词过滤
-            combined = f'{clean_title} {raw_desc[:100]}'.lower()
-            if any(ak.lower() in combined for ak in anti_keywords):
+            # 正反关键词过滤
+            combined = f'{title} {raw_desc[:300]}'.lower()
+            if any(ak in combined for ak in anti_kw):
+                continue
+            if not any(pk.lower() in combined for pk in policy_kw):
                 continue
 
-            # 深度总结：取 RSS 描述的前 400 字符（通常涵盖新闻核心）
-            deep_summary = raw_desc[:500].strip()
-            if len(deep_summary) < 50:
-                deep_summary = raw_desc[:200].strip()
+            # 清洗 RSS 描述
+            summary_text = raw_desc.strip()
+            # 去掉 "An article from" / "Dive Brief" / 导航栏等噪声前缀
+            noise = [
+                'An article from', 'Dive Brief', 'Published',
+                'Home Article Categories', 'Home Blog', 'Skip to content',
+                'Subscribe Newsletter', 'Share this article', 'The post',
+            ]
+            for pat in noise:
+                if summary_text.startswith(pat):
+                    dot = summary_text.find('. ')
+                    if dot > 15:
+                        summary_text = summary_text[dot+1:].strip()
+                    break
+            if len(summary_text) < 50:
+                summary_text = title
 
-            # 背景：补充来源和时间信息
-            bg_parts = [f'来源：{source_part}' if source_part else 'Google News 政策监测']
+            # 尝试补充抓取原文
+            article_text = _fetch_article_text(link, max_chars=1000)
+            if article_text and len(article_text) > len(summary_text):
+                summary_text = article_text[:1200]
+
+            # 提取结构化总结
+            deep_summary = _extract_policy_summary(title, summary_text, article_text)
+
+            bg_parts = [f'来源：{feed_name}']
             if pub_dt:
-                bg_parts.append(f'发布时间：{pub_dt.strftime("%Y-%m-%d %H:%M")}')
-            bg_parts.append(f'监测关键词：{query.replace("+", " ")}')
+                bg_parts.append(f'{pub_dt.strftime("%Y-%m-%d")}')
 
             items.append(Item(
-                title=clean_title,
+                title=title,
                 url=link,
                 summary=deep_summary,
                 background=' | '.join(bg_parts),
-                source='google-news',
-                source_name='Google News',
+                source=feed_tag.lower(),
+                source_name=feed_tag,
                 category='policy',
                 date=pub_dt.strftime('%Y-%m-%d') if pub_dt else TODAY,
                 pub_date=pub_dt,
             ))
-
-    # === 雨果网政策类文章（辅助源） ===
-    try:
-        html = _get('https://www.cifnews.com/', timeout=10)
-        if html:
-            soup = BeautifulSoup(html, 'html.parser')
-            for a in soup.select('a[href]'):
-                href = a.get('href', '').strip()
-                title = a.get_text(strip=True)
-                is_article = ('/article/' in href or '/news/' in href)
-                if not is_article or not title or len(title) < 15:
-                    continue
-                # 反关键词过滤
-                if any(ak.lower() in title.lower() for ak in anti_keywords):
-                    continue
-                # 政策类正关键词：标题必须包含至少一个
-                policy_kw = ['政策', '新规', '关税', '合规', 'FBA', '仓储', '退货',
-                            '佣金', '入驻', '封号', '验证', '税务', 'VAT', 'FDA',
-                            'CPSC', '认证', '限仓', '费用', '调整', '变更', '生效',
-                            'USPS', '物流', '海关', '清关', 'TRO', '侵权', '专利']
-                if not any(pk in title for pk in policy_kw):
-                    continue
-                if not href.startswith('http'):
-                    href = 'https://www.cifnews.com' + href
-                items.append(Item(
-                    title=title,
-                    url=href,
-                    summary=f'雨果网政策资讯：{_truncate(title, 200)}。点击链接查看政策全文与解读。',
-                    background='雨果网（cifnews.com）跨境电商行业媒体 — 政策/法规/合规类资讯',
-                    source='cifnews',
-                    source_name='雨果网',
-                    category='policy',
-                    date=TODAY,
-                    pub_date=NOW,
-                ))
-    except Exception:
-        pass
 
     return _dedup_sort(items, max_items=MAX_ITEMS_PER_SECTION['policy'])
 
@@ -494,46 +586,13 @@ def _dedup_sort(items: list, max_items: int = 20) -> list:
     return unique[:max_items]
 
 def collect_all() -> dict:
-    """并行采集所有信息源，返回分类好的数据"""
-    results = {'policy': [], 'trend': [], 'ai': []}
-    all_ai = []
+    """采集平台政策信息"""
+    results = {'policy': []}
 
-    # 定义任务
-    tasks = {
-        'policy': [('跨境电商资讯', fetch_ecommerce_news)],
-        'trend':  [('小家电趋势', fetch_appliance_trends)],
-        'ai': [
-            ('Hacker News', fetch_hackernews),
-            ('GitHub Trending', fetch_github_trending),
-            ('Product Hunt', fetch_producthunt),
-            ('掘金', fetch_juejin),
-            ('InfoQ', fetch_infoq),
-        ],
-    }
-
-    # 顺序执行（避免并行导致限流问题），每个源独立容错
-    for cat, funcs in tasks.items():
-        for name, func in funcs:
-            try:
-                print(f'  [采集] {name} ...')
-                items = func()
-                if items:
-                    print(f'         → {len(items)} 条')
-                else:
-                    print(f'         → 0 条（源可能不可用）')
-                if cat == 'ai':
-                    all_ai.extend(items)
-                else:
-                    results[cat].extend(items)
-            except Exception as e:
-                print(f'         → 出错: {e}')
-
-    # AI板块去重排序
-    results['ai'] = _dedup_sort(all_ai, max_items=MAX_ITEMS_PER_SECTION['ai'])
-
-    # policy 和 trend 也去重
-    results['policy'] = _dedup_sort(results['policy'], max_items=MAX_ITEMS_PER_SECTION['policy'])
-    results['trend'] = _dedup_sort(results['trend'], max_items=MAX_ITEMS_PER_SECTION['trend'])
+    print(f'  [采集] 平台政策 ...')
+    items = fetch_ecommerce_news()
+    print(f'         → {len(items)} 条')
+    results['policy'] = items
 
     return results
 
@@ -583,18 +642,16 @@ def _render_section(title: str, icon: str, items: list) -> str:
 </div>'''
 
 def render_html(data: dict, gen_date: str, gen_time: str) -> str:
-    """生成完整 HTML 页面"""
+    """生成完整 HTML 页面 — 跨境电商平台政策日报"""
     policy_count = len(data['policy'])
-    trend_count = len(data['trend'])
-    ai_count = len(data['ai'])
-    total = policy_count + trend_count + ai_count
+    total = policy_count
 
     return f'''<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>跨境 & AI 信息日报 — {gen_date}</title>
+<title>跨境电商平台政策日报 — {gen_date}</title>
 <style>
 * {{ margin:0; padding:0; box-sizing:border-box; }}
 body {{ font-family: -apple-system, BlinkMacSystemFont, "Microsoft YaHei", sans-serif; background: #f5f6fa; color: #333; line-height:1.6; }}
@@ -658,9 +715,9 @@ body {{ font-family: -apple-system, BlinkMacSystemFont, "Microsoft YaHei", sans-
 <body>
 
 <div class="header">
-    <h1>跨境 & AI 信息日报</h1>
+    <h1>跨境电商平台政策日报</h1>
     <div class="meta">
-        {gen_date} · 每日 9:00 更新 · 共 {total} 条信息
+        {gen_date} · 每日 9:00 更新 · 共 {total} 条政策
     </div>
 </div>
 
@@ -671,20 +728,12 @@ body {{ font-family: -apple-system, BlinkMacSystemFont, "Microsoft YaHei", sans-
 
 <div class="container">
 
-    <div class="stats">
-        <div class="stat-card"><div class="num">{policy_count}</div><div class="label">平台政策</div></div>
-        <div class="stat-card"><div class="num">{trend_count}</div><div class="label">产品趋势</div></div>
-        <div class="stat-card"><div class="num">{ai_count}</div><div class="label">AI 动态</div></div>
-    </div>
-
-{_render_section('平台政策', '📋', data['policy'])}
-{_render_section('小家电趋势', '📈', data['trend'])}
-{_render_section('AI & Vibe Coding', '🤖', data['ai'])}
+{_render_section('平台政策日报', '', data['policy'])}
 
 </div>
 
 <div class="footer">
-    <p>自动采集生成于 {gen_time} · 数据来源: Hacker News / GitHub / Product Hunt / 掘金 / InfoQ / Google News / Google Trends</p>
+    <p>自动采集生成于 {gen_time} · 数据来源: Google News 聚合 · 覆盖 Amazon / TikTok Shop / TEMU / Walmart 等平台政策</p>
     <p style="margin-top:6px;"><a href="archive.html">查看历史日报</a> · 内容仅供参考</p>
 </div>
 
@@ -852,7 +901,7 @@ def main():
     gen_time = _now_str()
     gen_date = TODAY_DATE
     print('=' * 50)
-    print(f'  信息聚合日报生成器')
+    print(f'  跨境电商平台政策日报生成器')
     print(f'  日期: {gen_date}  时间: {gen_time}')
     print('=' * 50)
     print()
@@ -861,7 +910,7 @@ def main():
     print('[1/4] 采集信息源...')
     data = collect_all()
     total = sum(len(v) for v in data.values())
-    print(f'  总计采集 {total} 条 (政策{len(data["policy"])} + 趋势{len(data["trend"])} + AI{len(data["ai"])})')
+    print(f'  总计采集 {total} 条平台政策')
     print()
 
     # 2. 生成 HTML
