@@ -600,51 +600,59 @@ def collect_all() -> dict:
 #  HTML 生成
 # ============================================================
 
-def _source_tag(source_name: str) -> str:
-    """来源名 → CSS class"""
-    m = {
-        'HN': 'tag-hn', 'GitHub': 'tag-gh', 'Product Hunt': 'tag-ph',
-        '掘金': 'tag-jj', 'InfoQ': 'tag-iq', 'Google Trends': 'tag-gt',
-        'Google News': 'tag-gn', '雨果网': 'tag-cn', '手动': 'tag-manual',
-    }
-    return m.get(source_name, 'tag-default')
+def _urgency_badge(item) -> str:
+    """根据标题/总结关键词判断紧急度"""
+    combined = f'{item.title} {item.summary}'.lower()
+    high_kw = ['deadline', 'effective immediately', 'ban', 'prohibit', 'suspend',
+               'mandatory', 'recall', 'fine', 'penalty', 'force', '强制', '立即']
+    if any(kw in combined for kw in high_kw):
+        return '<span class="urgency urgency-high">高</span>'
+    med_kw = ['increase', 'decrease', 'change', 'update', '新的', '调整']
+    if any(kw in combined for kw in med_kw):
+        return '<span class="urgency urgency-med">中</span>'
+    return '<span class="urgency urgency-low">低</span>'
 
-def _render_section(title: str, icon: str, items: list) -> str:
-    """渲染一个内容板块（卡片格式：总结 + 背景 + 链接）"""
+def _render_section(title: str, items: list) -> str:
+    """按规范渲染政策卡片"""
     if not items:
-        return f'''<div class="section">
-    <h2>{icon} {title}</h2>
+        return '''<div class="section">
+    <h2>平台政策日报</h2>
     <div class="empty">今日暂无数据，请稍后刷新</div>
 </div>'''
 
     cards = []
     for item in items:
-        tag_cls = _source_tag(item.source_name)
-        time_html = f'<span class="time">{item.date}</span>' if item.date else ''
+        date_html = f'<span class="time">{item.date}</span>' if item.date else ''
+        urgency_html = _urgency_badge(item)
         bg_html = ''
         if item.background:
             bg_html = f'<div class="card-bg"><span class="bg-label">背景</span>{item.background}</div>'
 
         cards.append(f'''<div class="card-item">
     <div class="card-header">
-        <span class="source-tag {tag_cls}">{item.source_name}</span>
+        <span class="source-tag">{item.source_name}</span>
         <a href="{item.url}" target="_blank" rel="noopener" class="card-title">{item.title}</a>
-        {time_html}
+        {urgency_html}
+        {date_html}
     </div>
-    <div class="card-summary"><span class="section-label">总结</span>{item.summary}</div>
+    <div class="card-summary"><span class="block-label label-summary">总结</span>{item.summary}</div>
     {bg_html}
-    <div class="card-link"><span class="section-label">链接</span><a href="{item.url}" target="_blank" rel="noopener">{item.url[:80]}{'...' if len(item.url) > 80 else ''}</a></div>
+    <div class="card-link">
+        <span class="block-label label-link">来源</span>
+        来源: {item.source_name}
+        &nbsp;·&nbsp;
+        <a href="{item.url}" target="_blank" rel="noopener">查看原文 →</a>
+    </div>
 </div>''')
 
     return f'''<div class="section">
-    <h2>{icon} {title} <span class="count">({len(items)}条)</span></h2>
+    <h2>{title} <span class="count">({len(items)}条)</span></h2>
     {''.join(cards)}
 </div>'''
 
 def render_html(data: dict, gen_date: str, gen_time: str) -> str:
-    """生成完整 HTML 页面 — 跨境电商平台政策日报"""
-    policy_count = len(data['policy'])
-    total = policy_count
+    """生成完整 HTML 页面"""
+    total = len(data['policy'])
 
     return f'''<!DOCTYPE html>
 <html lang="zh-CN">
@@ -654,61 +662,57 @@ def render_html(data: dict, gen_date: str, gen_time: str) -> str:
 <title>跨境电商平台政策日报 — {gen_date}</title>
 <style>
 * {{ margin:0; padding:0; box-sizing:border-box; }}
-body {{ font-family: -apple-system, BlinkMacSystemFont, "Microsoft YaHei", sans-serif; background: #f5f6fa; color: #333; line-height:1.6; }}
-.header {{ background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%); color:#fff; padding:32px 24px; text-align:center; }}
-.header h1 {{ font-size:26px; margin-bottom:6px; letter-spacing:1px; }}
-.header .meta {{ font-size:13px; opacity:.75; }}
-.header .meta a {{ color:#8ecae6; text-decoration:none; }}
-.nav {{ background:#fff; border-bottom:1px solid #e0e0e0; padding:0 24px; display:flex; gap:0; justify-content:center; }}
-.nav a {{ padding:10px 20px; text-decoration:none; color:#555; font-size:14px; font-weight:500; border-bottom:2px solid transparent; transition:.2s; }}
-.nav a:hover, .nav a.active {{ color:#2c5364; border-bottom-color:#2c5364; }}
+body {{ font-family: -apple-system, BlinkMacSystemFont, "Microsoft YaHei", sans-serif; background:#EDF2F7; color:#1A202C; line-height:1.6; }}
+.header {{ background: linear-gradient(135deg,#1A202C,#2D3748); color:#fff; padding:28px 24px; text-align:center; }}
+.header h1 {{ font-size:22px; font-weight:700; margin-bottom:4px; }}
+.header .meta {{ font-size:13px; opacity:.7; }}
+.nav {{ background:#fff; border-bottom:1px solid #E2E8F0; padding:0 24px; display:flex; justify-content:center; }}
+.nav a {{ padding:8px 18px; text-decoration:none; color:#4A5568; font-size:13px; font-weight:500; border-bottom:2px solid transparent; }}
+.nav a:hover, .nav a.active {{ color:#2B6CB0; border-bottom-color:#2B6CB0; }}
 .container {{ max-width:900px; margin:0 auto; padding:20px; }}
-.section {{ background:#fff; border-radius:10px; padding:24px; margin-bottom:20px; box-shadow:0 1px 3px rgba(0,0,0,0.06); }}
-.section h2 {{ font-size:18px; margin-bottom:16px; padding-bottom:10px; border-bottom:2px solid #2c5364; }}
-.section h2 .count {{ font-size:13px; color:#999; font-weight:400; margin-left:8px; }}
-.source-tag {{ flex-shrink:0; padding:3px 10px; border-radius:4px; font-size:11px; font-weight:600; white-space:nowrap; }}
-.tag-hn {{ background:#ff6600; color:#fff; }}
-.tag-gh {{ background:#24292e; color:#fff; }}
-.tag-ph {{ background:#da552f; color:#fff; }}
-.tag-jj {{ background:#1e80ff; color:#fff; }}
-.tag-iq {{ background:#009a61; color:#fff; }}
-.tag-gt {{ background:#4285f4; color:#fff; }}
-.tag-gn {{ background:#ea4335; color:#fff; }}
-.tag-cn {{ background:#ff6b35; color:#fff; }}
-.tag-manual {{ background:#999; color:#fff; }}
-.tag-default {{ background:#e0e0e0; color:#555; }}
-.time {{ color:#bbb; font-size:11px; white-space:nowrap; flex-shrink:0; margin-left:auto; }}
-.empty {{ color:#999; font-size:13px; text-align:center; padding:20px; }}
-.footer {{ text-align:center; color:#bbb; font-size:12px; padding:30px; }}
-.footer a {{ color:#999; text-decoration:none; }}
-.stats {{ display:flex; gap:20px; justify-content:center; flex-wrap:wrap; margin-bottom:24px; }}
-.stat-card {{ background:#fff; border-radius:10px; padding:16px 24px; text-align:center; box-shadow:0 1px 3px rgba(0,0,0,0.06); min-width:100px; }}
-.stat-card .num {{ font-size:28px; font-weight:700; color:#2c5364; }}
-.stat-card .label {{ font-size:12px; color:#999; margin-top:2px; }}
 
-/* 卡片格式 */
-.card-item {{ background:#fafbfc; border-radius:8px; padding:16px 20px; margin-bottom:14px; border:1px solid #eef0f4; transition:.2s; }}
-.card-item:hover {{ border-color:#c0c8d4; box-shadow:0 2px 8px rgba(0,0,0,0.04); }}
-.card-header {{ display:flex; align-items:center; gap:10px; margin-bottom:10px; flex-wrap:wrap; }}
-.card-title {{ color:#2c5364; text-decoration:none; font-weight:600; font-size:15px; flex:1; min-width:200px; }}
-.card-title:hover {{ text-decoration:underline; color:#1a73e8; }}
-.card-summary {{ font-size:13px; color:#555; line-height:1.6; margin-bottom:8px; padding:10px 14px; background:#f0f4ff; border-radius:6px; border-left:3px solid #2c5364; }}
-.card-bg {{ font-size:12px; color:#666; line-height:1.5; margin-bottom:8px; padding:8px 14px; background:#fffbe6; border-radius:6px; }}
-.card-link {{ font-size:12px; color:#888; padding:6px 14px; background:#f8f9fa; border-radius:6px; word-break:break-all; }}
-.card-link a {{ color:#2c5364; text-decoration:none; }}
+/* 卡片 */
+.card-item {{ background:#F7FAFC; border-radius:8px; padding:20px 24px; margin-bottom:16px; border:1px solid #E2E8F0; }}
+.card-header {{ display:flex; align-items:center; gap:10px; margin-bottom:12px; flex-wrap:wrap; }}
+.source-tag {{ background:#4A5568; color:#fff; padding:3px 10px; border-radius:4px; font-size:11px; font-weight:600; white-space:nowrap; }}
+.card-title {{ color:#1A202C; text-decoration:none; font-weight:700; font-size:15px; flex:1; min-width:160px; }}
+.card-title:hover {{ color:#2B6CB0; text-decoration:underline; }}
+.time {{ color:#A0AEC0; font-size:11px; white-space:nowrap; margin-left:auto; }}
+
+/* 紧急度标签 */
+.urgency {{ padding:2px 8px; border-radius:4px; font-size:10px; font-weight:700; white-space:nowrap; }}
+.urgency-high {{ background:#E53E3E; color:#fff; }}
+.urgency-med {{ background:#DD6B20; color:#fff; }}
+.urgency-low {{ background:#38A169; color:#fff; }}
+
+/* 区块 */
+.card-summary {{ font-size:14px; color:#2D3748; line-height:1.7; margin-bottom:12px; padding:12px 16px; background:#fff; border-left:3px solid #2B6CB0; border-radius:0 6px 6px 0; }}
+.card-bg {{ font-size:13px; color:#4A5568; line-height:1.6; margin-bottom:12px; padding:10px 16px; background:#FFFFF0; border-left:3px solid #D69E2E; border-radius:0 6px 6px 0; }}
+.card-link {{ font-size:12px; color:#718096; padding:8px 14px; background:#F7FAFC; border-radius:6px; }}
+.card-link a {{ color:#2B6CB0; text-decoration:none; font-weight:500; }}
 .card-link a:hover {{ text-decoration:underline; }}
-.section-label {{ display:inline-block; font-size:10px; font-weight:700; color:#fff; background:#2c5364; padding:1px 6px; border-radius:3px; margin-right:8px; text-transform:uppercase; letter-spacing:.5px; }}
-.bg-label {{ display:inline-block; font-size:10px; font-weight:700; color:#b7950b; background:#fff3cd; padding:1px 6px; border-radius:3px; margin-right:8px; }}
+
+/* 区块标签 */
+.block-label {{ display:inline-block; font-size:10px; font-weight:700; padding:1px 8px; border-radius:3px; margin-right:6px; letter-spacing:.5px; }}
+.label-summary {{ background:#2B6CB0; color:#fff; }}
+.label-link {{ background:#A0AEC0; color:#fff; }}
+.bg-label {{ background:#D69E2E; color:#fff; font-size:10px; font-weight:700; padding:1px 8px; border-radius:3px; margin-right:6px; display:inline-block; }}
+
+.section {{ background:#fff; border-radius:10px; padding:24px; margin-bottom:20px; box-shadow:0 1px 3px rgba(0,0,0,0.06); }}
+.section h2 {{ font-size:17px; margin-bottom:16px; padding-bottom:10px; border-bottom:2px solid #2B6CB0; font-weight:700; }}
+.section h2 .count {{ font-size:13px; color:#A0AEC0; font-weight:400; margin-left:8px; }}
+.empty {{ color:#A0AEC0; font-size:13px; text-align:center; padding:20px; }}
+.footer {{ text-align:center; color:#A0AEC0; font-size:11px; padding:24px; }}
+.footer a {{ color:#718096; text-decoration:none; }}
 
 @media (max-width: 640px) {{
-    .header h1 {{ font-size:20px; }}
+    .header h1 {{ font-size:18px; }}
+    .header {{ padding:18px; }}
     .container {{ padding:10px; }}
     .section {{ padding:16px; }}
-    .card-item {{ padding:12px 14px; }}
+    .card-item {{ padding:14px 16px; }}
     .card-title {{ font-size:13px; min-width:0; }}
-    .stats {{ gap:10px; }}
-    .stat-card {{ padding:12px 16px; min-width:80px; }}
-    .stat-card .num {{ font-size:22px; }}
+    .card-summary {{ font-size:13px; }}
 }}
 </style>
 </head>
@@ -727,14 +731,12 @@ body {{ font-family: -apple-system, BlinkMacSystemFont, "Microsoft YaHei", sans-
 </div>
 
 <div class="container">
-
-{_render_section('平台政策日报', '', data['policy'])}
-
+{_render_section('平台政策日报', data['policy'])}
 </div>
 
 <div class="footer">
-    <p>自动采集生成于 {gen_time} · 数据来源: Google News 聚合 · 覆盖 Amazon / TikTok Shop / TEMU / Walmart 等平台政策</p>
-    <p style="margin-top:6px;"><a href="archive.html">查看历史日报</a> · 内容仅供参考</p>
+    <p>自动采集 {gen_time} · 覆盖 Amazon / TikTok Shop / TEMU / Walmart / 关税 / 合规政策</p>
+    <p style="margin-top:4px;"><a href="archive.html">历史归档</a> · 内容仅供参考不构成决策依据</p>
 </div>
 
 </body></html>'''
